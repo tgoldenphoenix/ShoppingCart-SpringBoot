@@ -21,6 +21,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
+    // must be final for the lombok constructor injection annotation to work
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
@@ -31,7 +32,6 @@ public class ProductService implements IProductService {
         // check if the category is found in the DB
         // If Yes, set it as the new product category
         // If No, the save it as a new category
-        // The set as the new product category.
 
         Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(() -> {
@@ -42,6 +42,7 @@ public class ProductService implements IProductService {
         return productRepository.save(createProduct(request, category));
     }
 
+    // Use a helper method instead of using mapper
     private Product createProduct(AddProductRequest request, Category category) {
         return new Product(
                 request.getName(),
