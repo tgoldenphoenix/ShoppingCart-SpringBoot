@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 
 @Data
 public class AddProductRequest {
+    // json khong can field "id"
     private Long id;
     private String name;
     private String brand;
@@ -17,4 +18,5 @@ public class AddProductRequest {
     private int inventory;
     private String description;
     private Category category;
+    // do not have field image
 }

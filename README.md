@@ -1,9 +1,5 @@
 # Shopping Cart API
 
-Project for learning purpose
-
-[video instruction](https://www.youtube.com/watch?v=oGhc5Z-WJSw)
-
 ## ERD
 
 ![ERD Diagram](/screenshots/shopping-cart-erd.drawio.png "ERD Diagram")
@@ -15,6 +11,8 @@ mySQL, Spring Boot, Spring data JPA
 Constructor injection of service classes via their Interface
 
 DTO classes, custom request/response classes
+
+normalize api response with a custom class `ApiResponse`
 
 ## Product
 
@@ -29,8 +27,16 @@ Add product: If category not exist, create new category then add product to that
 
 Create `AddProductRequest` & `ProductUpdateRequest` objects
 
-### Product Image
+## Product Image
 
 - save & update image
 - delete image
 - get all image of a product
+
+## Category
+
+i
+
+## References
+
+[video instruction](https://www.youtube.com/watch?v=oGhc5Z-WJSw)
