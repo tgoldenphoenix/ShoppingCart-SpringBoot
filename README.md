@@ -14,16 +14,21 @@ DTO classes, custom request/response classes
 
 normalize api response with a custom class `ApiResponse`
 
+Try `ModelMapper` instead of `MapStruct`
+
 ## Product
 
 One product can have many images. Store image as `blob`. Have urls to download images.
 
 API to search product from DB based on different queries:
 
-- Get products by category, by brand
+- Get product by id using `@PathVariable`
+- Get products by category, by brand using `@RequestParam`
 - Get products by category AND brand, 
 
-Add product: If category not exist, create new category then add product to that category
+Add product: If category not yet exist, create new category then add product to that category
+
+Return product dto with image dto including image link and name
 
 Create `AddProductRequest` & `ProductUpdateRequest` objects
 
@@ -33,9 +38,17 @@ Create `AddProductRequest` & `ProductUpdateRequest` objects
 - delete image
 - get all image of a product
 
+image is saved inside MySQL using `blob` data type
+
 ## Category
 
 i
+
+## Notes
+
+- `@RequestParam` là `?brand=apple`; case in-sensitive, `Apple` hay `apple` both ok;
+- `@PathVariable` là `product/{productId}`
+- `RequestBody` là raw json inside body
 
 ## References
 

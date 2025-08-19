@@ -130,10 +130,15 @@ public class ProductService implements IProductService {
       return products.stream().map(this::convertToDto).toList();
     }
 
+    // @Override put this method into the interface
+    // so that you can access this method when dependency injection
+    // not just a helper function
     @Override
     public ProductDto convertToDto(Product product) {
         ProductDto productDto = modelMapper.map(product, ProductDto.class);
-        System.out.println("ProductService > convertToDto" + productDto.toString());
+        // try using breakpoint & debug mode
+//        System.out.println("ProductService > convertToDto" + productDto.toString());
+
         List<Image> images = imageRepository.findByProductId(product.getId());
         List<ImageDto> imageDtos = images.stream()
                 .map(image -> modelMapper.map(image, ImageDto.class))
