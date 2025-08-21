@@ -19,8 +19,12 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // default value zero
     private BigDecimal totalAmount = BigDecimal.ZERO;
 
+    // set no duplicate
+    // mappedBy must be similar to the field in CartItem entity class
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> items = new HashSet<>();
 

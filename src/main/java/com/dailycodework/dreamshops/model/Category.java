@@ -14,12 +14,15 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Category {
+    // nếu khong muon return category id when find product
+    // thi tao category DTO giong nhu image DTO
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
 
+    // avoid loop in api result
     @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> products;

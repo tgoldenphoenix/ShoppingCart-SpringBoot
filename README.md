@@ -1,4 +1,4 @@
-# Shopping Cart API
+# E-Commerce API Spring Boot MySQL
 
 ## ERD
 
@@ -42,7 +42,11 @@ image is saved inside MySQL using `blob` data type
 
 ## Category
 
-i
+Basic crud apis
+
+## Cart
+
+One cart has multiple `CartItem`. Each `CartItem` is a `Product`
 
 ## Notes
 
