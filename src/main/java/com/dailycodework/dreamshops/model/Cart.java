@@ -33,10 +33,6 @@ public class Cart {
     private User user;
 
 
-
-
-
-
     public void addItem(CartItem item) {
         this.items.add(item);
         item.setCart(this);

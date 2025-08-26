@@ -24,15 +24,16 @@ public class CartItemService  implements ICartItemService{
     public void addItemToCart(Long cartId, Long productId, int quantity) {
         //1. Get the cart
         //2. Get the product
-        //3. Check if the product already in the cart
-        //4. If Yes, then increase the quantity with the requested quantity
-        //5. If No, then initiate a new CartItem entry.
         Cart cart = cartService.getCart(cartId);
         Product product = productService.getProductById(productId);
+
+        //3. Check if the product already in the cart
         CartItem cartItem = cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst().orElse(new CartItem());
+
+        //4.1 If No, then initiate a new CartItem entry.
         if (cartItem.getId() == null) {
             cartItem.setCart(cart);
             cartItem.setProduct(product);
@@ -40,6 +41,7 @@ public class CartItemService  implements ICartItemService{
             cartItem.setUnitPrice(product.getPrice());
         }
         else {
+            //4.2 If Yes, then increase the quantity with the requested quantity
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
         }
         cartItem.setTotalPrice();
