@@ -22,8 +22,10 @@ public class OrderController {
     public ResponseEntity<ApiResponse> createOrder(@RequestParam Long userId) {
         try {
             Order order =  orderService.placeOrder(userId);
-            return ResponseEntity.ok(new ApiResponse("Item Order Success!", order));
+            OrderDto orderDto =  orderService.convertToDto(order);
+            return ResponseEntity.ok(new ApiResponse("Item Order Success!", orderDto));
         } catch (Exception e) {
+            // bat loi chung chung, khong cu the la loi nao het
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Error Occured!", e.getMessage()));
         }
     }
@@ -38,7 +40,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/{userId}/order")
+    @GetMapping("/user/{userId}/order")
     public ResponseEntity<ApiResponse> getUserOrders(@PathVariable Long userId) {
         try {
             List<OrderDto> order = orderService.getUserOrders(userId);

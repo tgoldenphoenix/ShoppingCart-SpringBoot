@@ -7,5 +7,6 @@ public class ImageDto {
     private Long id;
     private String fileName;
     private String downloadUrl;
+
     // no fileName, blob, product
 }

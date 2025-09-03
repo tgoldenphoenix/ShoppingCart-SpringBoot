@@ -2,6 +2,7 @@ package com.dailycodework.dreamshops.service.product;
 
 import com.dailycodework.dreamshops.dto.ImageDto;
 import com.dailycodework.dreamshops.dto.ProductDto;
+import com.dailycodework.dreamshops.exceptions.AlreadyExistsException;
 import com.dailycodework.dreamshops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dreamshops.model.Category;
 import com.dailycodework.dreamshops.model.Image;
@@ -29,9 +30,12 @@ public class ProductService implements IProductService {
 
     @Override
     public Product addProduct(AddProductRequest request) {
-        // check if the category is found in the DB
-        // If Yes, set it as the new product category
-        // If No, the save it as a new category
+      // check if the category is found in the DB
+      // If Yes, set it as the new product category
+      // If No, the save it as a new category
+        if (productExists(request.getName(), request.getBrand())){
+            throw new AlreadyExistsException(request.getBrand() +" "+request.getName()+ " already exists, you may update this product instead!");
+        }
         Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(() -> {
                     Category newCategory = new Category(request.getCategory().getName());
@@ -41,8 +45,12 @@ public class ProductService implements IProductService {
         return productRepository.save(createProduct(request, category));
     }
 
-    // Use a helper method instead of using mapper
-    // map AddProductRequest -> Product
+    private boolean productExists(String name , String brand) {
+        return productRepository.existsByNameAndBrand(name, brand);
+    }
+
+  // Use a helper method instead of using mapper
+  // map AddProductRequest -> Product
     private Product createProduct(AddProductRequest request, Category category) {
         return new Product(
                 request.getName(),
@@ -54,19 +62,19 @@ public class ProductService implements IProductService {
         );
     }
 
-
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Product not found!"));
     }
 
-    @Override
+  @Override
     public void deleteProductById(Long id) {
         productRepository.findById(id)
                 .ifPresentOrElse(productRepository::delete,
                         () -> {throw new ResourceNotFoundException("Product not found!");});
     }
+
 
     @Override
     public Product updateProduct(ProductUpdateRequest request, Long productId) {
@@ -76,7 +84,7 @@ public class ProductService implements IProductService {
                 .orElseThrow(()-> new ResourceNotFoundException("Product not found!"));
     }
 
-    // helper function
+  // helper function
     private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request) {
         existingProduct.setName(request.getName());
         existingProduct.setBrand(request.getBrand());
@@ -130,13 +138,13 @@ public class ProductService implements IProductService {
       return products.stream().map(this::convertToDto).toList();
     }
 
-    // @Override put this method into the interface
-    // so that you can access this method when dependency injection
-    // not just a helper function
+  // @Override put this method into the interface
+  // so that you can access this method when dependency injection
+  // not just a helper function
     @Override
     public ProductDto convertToDto(Product product) {
         ProductDto productDto = modelMapper.map(product, ProductDto.class);
-        // try using breakpoint & debug mode
+      // try using breakpoint & debug mode
 //        System.out.println("ProductService > convertToDto" + productDto.toString());
 
         List<Image> images = imageRepository.findByProductId(product.getId());

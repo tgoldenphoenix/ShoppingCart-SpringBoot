@@ -53,6 +53,7 @@ public class OrderService implements IOrderService {
      private List<OrderItem> createOrderItems(Order order, Cart cart) {
         return  cart.getItems().stream().map(cartItem -> {
             Product product = cartItem.getProduct();
+            // subtract from the inventory
             product.setInventory(product.getInventory() - cartItem.getQuantity());
             productRepository.save(product);
             return  new OrderItem(
@@ -61,7 +62,6 @@ public class OrderService implements IOrderService {
                     cartItem.getQuantity(),
                     cartItem.getUnitPrice());
         }).toList();
-
      }
 
      private BigDecimal calculateTotalAmount(List<OrderItem> orderItemList) {
@@ -85,7 +85,8 @@ public class OrderService implements IOrderService {
         return  orders.stream().map(this :: convertToDto).toList();
     }
 
-    private OrderDto convertToDto(Order order) {
+    @Override
+    public OrderDto convertToDto(Order order) {
         return modelMapper.map(order, OrderDto.class);
     }
 }

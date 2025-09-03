@@ -29,6 +29,7 @@ public class CartController {
         }
     }
 
+    // delete a cart & all its cart items
     @DeleteMapping("/{cartId}/clear")
     public ResponseEntity<ApiResponse> clearCart( @PathVariable Long cartId) {
         try {
