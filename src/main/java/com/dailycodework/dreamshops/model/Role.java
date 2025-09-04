@@ -16,8 +16,11 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
+    // manually insert into DB 2 roles below
+    // ROLE_ADMIN, ROLE_USER
     private String name;
 
+    // constructor
     public Role(String name) {
         this.name = name;
     }

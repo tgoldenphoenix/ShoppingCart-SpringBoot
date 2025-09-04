@@ -51,6 +51,7 @@ public class CartService implements ICartService{
 
     @Override
     public Cart initializeNewCart(User user) {
+        // If this user already had a cart, do not create duplicate
         return Optional.ofNullable(getCartByUserId(user.getId()))
                 .orElseGet(() -> {
                     Cart cart = new Cart();

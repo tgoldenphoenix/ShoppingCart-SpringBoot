@@ -31,10 +31,11 @@ public class CartItemController {
                                                      @RequestParam Long productId,
                                                      @RequestParam Integer quantity) {
         try {
-            // find user 01
 //            User user = userService.getAuthenticatedUser();
-            User user = userService.getUserById((long) 1);
+            // Hard-code one default user
+            User user = userService.getUserById((long) 2);
             Cart cart= cartService.initializeNewCart(user);
+            // create new CartItem row & update Cart table
             cartItemService.addItemToCart(cart.getId(), productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Add Item Success", null));
         } catch (ResourceNotFoundException e) {

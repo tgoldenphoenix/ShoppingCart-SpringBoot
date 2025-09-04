@@ -23,16 +23,19 @@ public class CartItemService  implements ICartItemService{
     @Override
     public void addItemToCart(Long cartId, Long productId, int quantity) {
         //1. Get the cart
-        //2. Get the product
         Cart cart = cartService.getCart(cartId);
+        //2. Get the product
         Product product = productService.getProductById(productId);
 
-        //3. Check if the product already in the cart
+        //3. If the product already in the cart, get it out
+        // else create a new CartItem with id=null
+        // using the getter `getItems`
         CartItem cartItem = cart.getItems()
                 .stream()
                 .filter(item -> item.getProduct().getId().equals(productId))
                 .findFirst().orElse(new CartItem());
-        //4.1 If No, then initiate a new CartItem entry.
+
+        //4.1 If product not exist in cart, then initiate a new CartItem entry.
         if (cartItem.getId() == null) {
             cartItem.setCart(cart);
             cartItem.setProduct(product);
@@ -40,9 +43,11 @@ public class CartItemService  implements ICartItemService{
             cartItem.setUnitPrice(product.getPrice());
         }
         else {
-            //4.2 If Yes, then increase the quantity with the requested quantity
+            //4.2 If product already exist in cart
+            // then increase the quantity with the requested quantity
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
         }
+
         cartItem.setTotalPrice();
         cart.addItem(cartItem);
         cartItemRepository.save(cartItem);
