@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CartService implements ICartService{
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private final AtomicLong cartIdGenerator = new AtomicLong(0);
+//    private final AtomicLong cartIdGenerator = new AtomicLong(0);
     private final IProductService productService;
 
     @Override

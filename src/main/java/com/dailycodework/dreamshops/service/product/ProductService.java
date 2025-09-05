@@ -28,21 +28,24 @@ public class ProductService implements IProductService {
     private final ModelMapper modelMapper;
     private final ImageRepository imageRepository;
 
+    // add new product
     @Override
     public Product addProduct(AddProductRequest request) {
+      // check if product already exist by name & brand
+      if (productExists(request.getName(), request.getBrand())){
+          throw new AlreadyExistsException(request.getBrand() +" "+request.getName()+ " already exists, you may update this product instead!");
+      }
+
       // check if the category is found in the DB
       // If Yes, set it as the new product category
       // If No, the save it as a new category
-        if (productExists(request.getName(), request.getBrand())){
-            throw new AlreadyExistsException(request.getBrand() +" "+request.getName()+ " already exists, you may update this product instead!");
-        }
-        Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
-                .orElseGet(() -> {
-                    Category newCategory = new Category(request.getCategory().getName());
-                    return categoryRepository.save(newCategory);
-                });
-        request.setCategory(category);
-        return productRepository.save(createProduct(request, category));
+      Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+              .orElseGet(() -> {
+                  Category newCategory = new Category(request.getCategory().getName());
+                  return categoryRepository.save(newCategory);
+              });
+      request.setCategory(category);
+      return productRepository.save(createProduct(request, category));
     }
 
     private boolean productExists(String name , String brand) {

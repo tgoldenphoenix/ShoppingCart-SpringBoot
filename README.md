@@ -1,4 +1,4 @@
-# E-Commerce API Spring Boot MySQL
+# E-Commerce API Spring Boot Hibernate & MySQL
 
 ## ERD
 
@@ -44,7 +44,11 @@ image is saved inside MySQL using `blob` data type
 
 Basic crud apis
 
-## Cart
+## Cart & Cart Item
+
+Each user can only have one cart. Cart information is stored inside Database to persist after user had log-out. 
+
+User can add `[quantity]` of an available item to their cart
 
 One cart has multiple `CartItem`. Each `CartItem` is a `Product`
 
